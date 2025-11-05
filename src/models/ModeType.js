@@ -1,0 +1,7 @@
+const BUILD_MODE = "BUILD";
+const SIMULATION_MODE = "SIMULATION";
+
+const MODES_LIST = [
+    BUILD_MODE,
+    SIMULATION_MODE
+]

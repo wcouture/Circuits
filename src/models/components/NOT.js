@@ -9,6 +9,8 @@ class NOTGate {
         this.outputNode = new Node(x + 20, y);
         this.inputNode.type = COMPONENT_INPUT_NODE;
         this.outputNode.type = COMPONENT_OUTPUT_NODE;
+
+        this.type = NOT_GATE_COMPONENT;
     }
 
     draw() {

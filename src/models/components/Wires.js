@@ -12,6 +12,8 @@ class Wire {
         this.outputNode = endNode;
 
         this.activeState = false;
+
+        this.type = WIRE_COMPONENT;
     }
 
     draw() {

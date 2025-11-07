@@ -13,6 +13,8 @@ class ANDGate {
         this.inputNodeA.type = COMPONENT_INPUT_NODE;
         this.inputNodeB.type = COMPONENT_INPUT_NODE;
         this.outputNode.type = COMPONENT_OUTPUT_NODE;
+
+        this.type = AND_GATE_COMPONENT;
     }
 
     draw() {

@@ -10,6 +10,7 @@ class Light {
         this.inputNode.type = COMPONENT_INPUT_NODE;
 
         this.state = false;
+        this.type = LIGHT_COMPONENT;
     }
 
     draw() {

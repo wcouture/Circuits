@@ -45,20 +45,38 @@ function drawUI() {
 
   // Selected Component
   push()
-  textSize(18)
-  let tWidth = 0
-  for(let i = 0; i < COMPONENT_LIST.length; i++) {
-    if (selectedComponent == COMPONENT_LIST[i]) {
-      fill('red')
-    } else {
-      fill('black')
-    }
+    textSize(18)
+    let tWidth = 0
+    for(let i = 0; i < COMPONENT_LIST.length; i++) {
+      if (selectedComponent == COMPONENT_LIST[i]) {
+        fill('red')
+      } else {
+        fill('black')
+      }
 
-    let itemText = (i + 1) + ". " + COMPONENT_LIST[i]
-    text(itemText, 10 + tWidth + (i * 20), SCREEN_HEIGHT - 20)
-    tWidth += textWidth(itemText)
-  }
+      let itemText = (i + 1) + ". " + COMPONENT_LIST[i]
+      text(itemText, 10 + tWidth + (i * 20), SCREEN_HEIGHT - 20)
+      tWidth += textWidth(itemText)
+    }
   pop()
+
+  // Zoom and position
+  push()
+    textSize(26)
+    textStyle(BOLD)
+    fill('black')
+
+    let zoomText = "Zoom: " + CAMERA_DATA.zoom.toFixed(2)
+    let zoomTextLength = textWidth(zoomText)
+
+    text(zoomText, SCREEN_WIDTH - zoomTextLength - 10, 30)
+
+    let positionText = "(" + -CAMERA_DATA.x_offset + ", " + -CAMERA_DATA.y_offset + ")"
+    let positionTextLength = textWidth(positionText)
+
+    text(positionText, SCREEN_WIDTH - positionTextLength - 10, 60)
+  pop()
+
 }
 
 function update() {
@@ -72,6 +90,13 @@ function update() {
         comp.Update();
       }
       break;
+  }
+
+  if (keyIsPressed) {
+    if (ZOOM_KEYS.indexOf(key) >= 0)
+      zoomCamera()
+    if (TRANSFORM_KEYS.indexOf(key) >= 0)
+      transformCamera()
   }
 }
 
@@ -202,23 +227,26 @@ function switchSelectedComponent() {
   clearTempBuildData();
 }
 
-function transformCamera(dir) {
-  if (dir === "ArrowUp") {
+function transformCamera() {
+  if (keyIsDown(UP_ARROW)) {
     CAMERA_DATA.y_offset += 10;
-  } else if (dir === "ArrowDown") {
+  } else if (keyIsDown(DOWN_ARROW)) {
     CAMERA_DATA.y_offset -= 10;
-  } else if (dir === "ArrowLeft") {
+  } else if (keyIsDown(LEFT_ARROW)) {
     CAMERA_DATA.x_offset += 10;
-  } else if (dir === "ArrowRight") {
+  } else if (keyIsDown(RIGHT_ARROW)) {
     CAMERA_DATA.x_offset -= 10;
   }
 }
 
-function zoomCamera(dir) {
-  if (dir === ']') {
-    CAMERA_DATA.zoom += 0.1;
-  } else if (dir === '[') {
-    CAMERA_DATA.zoom -= 0.1;
+function zoomCamera() {
+  console.log("zooming camera")
+  if (keyIsDown(RIGHT_BRACKET)) {
+    CAMERA_DATA.zoom *= 1.05;
+    CAMERA_DATA.zoom = parseFloat(CAMERA_DATA.zoom.toFixed(2))
+  } else if (keyIsDown(LEFT_BRACKET)) {
+    CAMERA_DATA.zoom /= 1.05;
+    CAMERA_DATA.zoom = parseFloat(CAMERA_DATA.zoom.toFixed(2))
   }
 }
 
@@ -232,13 +260,7 @@ function switchMode(newMode) {
 }
 
 function keyPressed() {
-  if (TRANSFORM_KEYS.indexOf(key) >= 0){
-    transformCamera(key)
-  }
-  else if (ZOOM_KEYS.indexOf(key) >= 0) {
-    zoomCamera(key)
-  }
-  else if (COMPONENT_KEYS.indexOf(key) >= 0) {
+  if (COMPONENT_KEYS.indexOf(key) >= 0) {
    switchSelectedComponent();
   }
   else if (MODE_SWITCH_KEYS.indexOf(key) >= 0) {

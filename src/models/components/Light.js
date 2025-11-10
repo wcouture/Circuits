@@ -25,6 +25,6 @@ class Light {
 
     Update() {
         // Update the light state based on input node
-        this.state = this.inputNode.GetState();
+        this.state = this.inputNodeA.GetState();
     }
 }

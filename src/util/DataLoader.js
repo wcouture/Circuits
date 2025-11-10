@@ -1,22 +1,21 @@
 
 function SaveCircuit(outputFile) {
     let outputData = {
+        validation: true,
         nodes: NODES,
         components: COMPONENTS
     }
     
     let data = JSON.stringify(outputData)
     
-    var blob = new Blob([data], {type: 'text/plain'})
+    var blob = new Blob([data], {type: 'application/json'})
     var link = document.createElement('a')
     link.href = URL.createObjectURL(blob)
-    link.download = outputFile + ".txt"
+    link.download = outputFile + ".json"
     link.click()
 }
 
-function OnFileLoad(e, NODES, COMPONENTS) {
-    let fileText = e.target.result;
-
+function OnFileLoad(fileText) {
     let uploadData = JSON.parse(fileText)
 
     for (let i = 0; i < uploadData.nodes.length; i++) {
@@ -96,17 +95,26 @@ function OnFileLoad(e, NODES, COMPONENTS) {
     }
 }
 
-function LoadCircuit() {
-    var fileInput = document.createElement('input')
-    fileInput.type = 'file'
+async function LoadCircuit() {
+    const filePickerOptions = {
+        types: [
+            {
+                description: "JSON",
+                accept: {
+                "application/json": [".json"],
+                },
+            },
+        ],
+        excludeAcceptAllOption: true,
+        multiple: false,
+    }
 
-    fileInput.addEventListener("change", (e) => {
-        const reader = new FileReader();
+    const [fileHandle] = await window.showOpenFilePicker(filePickerOptions)
+    const fileData = await fileHandle.getFile()
 
-        reader.onload = OnFileLoad;
+    const reader = new FileReader()
 
-        reader.readAsText(e.target.files[0])
-    })
+    reader.onload = () => OnFileLoad(reader.result)
 
-    fileInput.click()
+    reader.readAsText(fileData)
 }

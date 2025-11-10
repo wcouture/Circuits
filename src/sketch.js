@@ -77,6 +77,23 @@ function drawUI() {
     text(positionText, SCREEN_WIDTH - positionTextLength - 10, 60)
   pop()
 
+  // Controls labels
+  push()
+    textSize(16)
+    textStyle(BOLD)
+    fill('black')
+    textAlign(CENTER)
+
+    text("Controls:", SCREEN_WIDTH / 2, 20)
+
+    textSize(12)
+    var controlsText = "B = Build Mode, S = Simulation Mode | F = Save Circuit,  R = Load Circuit"
+    text(controlsText, SCREEN_WIDTH / 2, 35)
+
+    controlsText = "[ or ] = Camera Zoom, Arrow Keys = Camera Transform"
+    text(controlsText, SCREEN_WIDTH / 2, 50)
+  pop()
+
 }
 
 function update() {
@@ -269,9 +286,6 @@ function keyPressed() {
   }
   else if (MODE_SWITCH_KEYS.indexOf(key) >= 0) {
     switchMode(key)
-  }
-  else {
-    console.log("Key pressed: " + key);
   }
 }
 

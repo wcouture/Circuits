@@ -2,6 +2,8 @@ const GENERIC_NODE = "GENERIC_NODE";
 const COMPONENT_INPUT_NODE = "COMPONENT_INPUT_NODE";
 const COMPONENT_OUTPUT_NODE = "COMPONENT_OUTPUT_NODE";
 
+const ID_COUNTER = {next_id: 1};
+
 class Node {
     constructor(x, y) {
         this.x = x;
@@ -11,6 +13,9 @@ class Node {
         this.connected = false;
         
         this.state = false;
+        this.id = ID_COUNTER.next_id;
+
+        ID_COUNTER.next_id += 1;
     }
 
     draw() {

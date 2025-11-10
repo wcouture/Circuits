@@ -5,9 +5,9 @@ class NOTGate {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.inputNode = new Node(x - 20, y);
+        this.inputNodeA = new Node(x - 20, y);
         this.outputNode = new Node(x + 20, y);
-        this.inputNode.type = COMPONENT_INPUT_NODE;
+        this.inputNodeA.type = COMPONENT_INPUT_NODE;
         this.outputNode.type = COMPONENT_OUTPUT_NODE;
 
         this.type = NOT_GATE_COMPONENT;
@@ -31,7 +31,7 @@ class NOTGate {
 
     Update() {
         // Update the NOT gate logic
-        let input = this.inputNode.GetState();
+        let input = this.inputNodeA.GetState();
         this.outputNode.SetState(!input);
     }
 }

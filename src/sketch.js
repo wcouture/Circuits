@@ -137,11 +137,11 @@ function handleBuildMode() {
         } else if (!existingNode) {
           // create new node at mouse position and create wire
           BUILD_MODE_DATA.endNode = new Node((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
+          NODES.push(BUILD_MODE_DATA.endNode);
         } else {
           return; // Can't connect to non-input node
         }
         
-        NODES.push(BUILD_MODE_DATA.endNode);
         COMPONENTS.push(new Wire(BUILD_MODE_DATA.startNode, BUILD_MODE_DATA.endNode));
 
         // Reset the build mode data
@@ -161,12 +161,10 @@ function handleBuildMode() {
     case NOT_GATE_COMPONENT:
       // Create NOT gate at mouse position
       newComponent = new NOTGate((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
-      NODES.push(newComponent.inputNode);
       break;
     case LIGHT_COMPONENT:
       // Create light at mouse position
       newComponent = new Light((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
-      NODES.push(newComponent.inputNode);
       break;
     default:
       break;
@@ -240,7 +238,6 @@ function transformCamera() {
 }
 
 function zoomCamera() {
-  console.log("zooming camera")
   if (keyIsDown(RIGHT_BRACKET)) {
     CAMERA_DATA.zoom *= 1.05;
     CAMERA_DATA.zoom = parseFloat(CAMERA_DATA.zoom.toFixed(2))
@@ -260,6 +257,13 @@ function switchMode(newMode) {
 }
 
 function keyPressed() {
+  if (key === 'f') {
+    SaveCircuit("test")
+    return;
+  } else if (key === 'r') {
+    LoadCircuit()
+  }
+
   if (COMPONENT_KEYS.indexOf(key) >= 0) {
    switchSelectedComponent();
   }

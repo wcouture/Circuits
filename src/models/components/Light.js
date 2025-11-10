@@ -6,8 +6,8 @@ class Light {
         this.x = x;
         this.y = y;
 
-        this.inputNode = new Node(this.x - 10, this.y);
-        this.inputNode.type = COMPONENT_INPUT_NODE;
+        this.inputNodeA = new Node(this.x - 10, this.y);
+        this.inputNodeA.type = COMPONENT_INPUT_NODE;
 
         this.state = false;
         this.type = LIGHT_COMPONENT;

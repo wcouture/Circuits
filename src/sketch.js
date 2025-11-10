@@ -127,6 +127,19 @@ function nodeClicked(x, y) {
   return null;
 }
 
+function inputClicked(x, y) {
+  for (let i = 0; i < COMPONENTS.length; i++) {
+    if (COMPONENTS[i].type != INPUT_SWITCH_COMPONENT)
+      continue;
+
+    let d = dist(x, y, COMPONENTS[i].x, COMPONENTS[i].y);
+    if (d < 25) {
+      return COMPONENTS[i];
+    }
+  }
+  return null;
+}
+
 function handleBuildMode() {
   var newComponent = null;
 
@@ -183,7 +196,11 @@ function handleBuildMode() {
       // Create light at mouse position
       newComponent = new Light((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
       break;
+    case INPUT_SWITCH_COMPONENT:
+      // Create input switch at mouse position
+      newComponent = new InputSwitch((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
     default:
+      console.log("NO SELECTED COMPONENT")
       break;
   }
 
@@ -200,10 +217,10 @@ function handleBuildMode() {
 
 function handleSimulationMode() {
   // Handle simulation mode logic if needed
-  let clickedNode = nodeClicked((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
-  if (clickedNode) {
+  let clickedInput = inputClicked((mouseX - CAMERA_DATA.x_offset) / CAMERA_DATA.zoom, (mouseY - CAMERA_DATA.y_offset) / CAMERA_DATA.zoom);
+  if (clickedInput) {
     // Toggle the state of the clicked node
-    clickedNode.SetState(!clickedNode.GetState());
+    clickedInput.Toggle()
   }
 }
 
@@ -223,21 +240,10 @@ function clearTempBuildData() {
 }
 
 function switchSelectedComponent() {
-  if (key == 1) {
-    selectedComponent = WIRE_COMPONENT;
-  }
-  else if (key == 2) {
-    selectedComponent = AND_GATE_COMPONENT;
-  }
-  else if (key == 3) {
-    selectedComponent = OR_GATE_COMPONENT;
-  }
-  else if (key == 4) {
-    selectedComponent = NOT_GATE_COMPONENT;
-  }
-  else if (key == 5) {
-    selectedComponent = LIGHT_COMPONENT;
-  }
+  let componentIndex = parseInt(key) - 1
+  if (componentIndex >= 0 && componentIndex <= COMPONENT_LIST.length)
+    selectedComponent = COMPONENT_LIST[componentIndex]
+  
 
   clearTempBuildData();
 }
@@ -280,12 +286,11 @@ function keyPressed() {
   } else if (key === 'r') {
     LoadCircuit()
   }
-
-  if (COMPONENT_KEYS.indexOf(key) >= 0) {
-   switchSelectedComponent();
-  }
   else if (MODE_SWITCH_KEYS.indexOf(key) >= 0) {
     switchMode(key)
+  }
+  else if (parseInt(key) != NaN) {
+   switchSelectedComponent();
   }
 }
 

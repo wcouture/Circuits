@@ -6,7 +6,7 @@ class Light {
         this.x = x;
         this.y = y;
 
-        this.inputNodeA = new Node(this.x - 10, this.y);
+        this.inputNodeA = new Node(this.x - 15, this.y);
         this.inputNodeA.type = COMPONENT_INPUT_NODE;
 
         this.state = false;
@@ -19,7 +19,11 @@ class Light {
         fill(this.state ? 'yellow' : 'grey');
         stroke(0);
         ellipseMode(CENTER);
-        ellipse(this.x + CAMERA_DATA.x_offset, this.y + CAMERA_DATA.y_offset, 20, 20);
+        ellipse(this.x + CAMERA_DATA.x_offset, this.y + CAMERA_DATA.y_offset, 30, 30);
+
+        textAlign(CENTER, CENTER)
+        fill("black")
+        text(this.state ? "1" : "0", this.x + CAMERA_DATA.x_offset, this.y + CAMERA_DATA.y_offset)
         pop();
     }
 

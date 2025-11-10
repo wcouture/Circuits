@@ -10,7 +10,6 @@ const CAMERA_DATA = {
 const BACKGROUND_COLOR = 220;
 
 const MODE_SWITCH_KEYS = ['b', 's']
-const COMPONENT_KEYS = ['1', '2', '3', '4', '5']
 const TRANSFORM_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]
 const ZOOM_KEYS = ['[', ']']
 

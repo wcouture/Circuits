@@ -1,5 +1,7 @@
 
-function SaveCircuit(outputFile) {
+function SaveCircuit() {
+    let outputFile = prompt("Input filename to save ciruit:")
+    
     let outputData = {
         validation: true,
         nodes: NODES,
@@ -46,6 +48,9 @@ function OnFileLoad(fileText) {
                 break;
             case LIGHT_COMPONENT:
                 newComponent = new Light(loadedComponent.x, loadedComponent.y)
+                break;
+            case INPUT_SWITCH_COMPONENT:
+                newComponent = new InputSwitch(loadedComponent.x, loadedComponent.y)
                 break;
         }
 

@@ -32,3 +32,4 @@ class Light {
         this.state = this.inputNodeA.GetState();
     }
 }
+

@@ -4,6 +4,8 @@ const NODES = [];
 var mode = SIMULATION_MODE;
 var selectedComponent = WIRE_COMPONENT;
 
+var loadingCircuitData = false;
+
 const BUILD_MODE_DATA = {
   startNode: null,
   endNode: null
@@ -110,10 +112,7 @@ function update() {
   }
 
   if (keyIsPressed) {
-    if (ZOOM_KEYS.indexOf(key) >= 0)
-      zoomCamera()
-    if (TRANSFORM_KEYS.indexOf(key) >= 0)
-      transformCamera()
+    CheckKeyInputs()
   }
 }
 
@@ -279,13 +278,22 @@ function switchMode(newMode) {
   }
 }
 
-function keyPressed() {
+async function CheckKeyInputs() {
+  // Camera controls
+  if (ZOOM_KEYS.indexOf(key) >= 0)
+    zoomCamera()
+  if (TRANSFORM_KEYS.indexOf(key) >= 0)
+    transformCamera()
+
+  // circuit save/load
   if (key === 'f') {
     SaveCircuit("test")
-    return;
-  } else if (key === 'r') {
-    LoadCircuit()
-  }
+  } else if (key === 'r' || key === 'R') {
+    if (loadingCircuitData == false) {
+      loadingCircuitData = true
+      await LoadCircuit()
+    }
+  } 
   else if (MODE_SWITCH_KEYS.indexOf(key) >= 0) {
     switchMode(key)
   }
@@ -305,4 +313,9 @@ function mousePressed() {
       handleSimulationMode();
       break;
   }
+}
+
+function keyReleased() {
+  if (key === 'r' | key === 'R')
+    loadingCircuitData = false
 }

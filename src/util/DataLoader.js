@@ -20,6 +20,12 @@ function SaveCircuit() {
 function OnFileLoad(fileText) {
     let uploadData = JSON.parse(fileText)
 
+    // Clear screen
+    while (NODES.length > 0)
+        NODES.pop()
+    while (COMPONENTS.length > 0)
+        COMPONENTS.pop()
+
     for (let i = 0; i < uploadData.nodes.length; i++) {
         const loadedNode = uploadData.nodes[i]
         const newNode = new Node(loadedNode.x, loadedNode.y)
@@ -114,12 +120,13 @@ async function LoadCircuit() {
         multiple: false,
     }
 
+    console.log("Loading circuit file")
+
     const [fileHandle] = await window.showOpenFilePicker(filePickerOptions)
+
+    console.log("Circuit file selected")
     const fileData = await fileHandle.getFile()
+    let fileText = await fileData.text()
 
-    const reader = new FileReader()
-
-    reader.onload = () => OnFileLoad(reader.result)
-
-    reader.readAsText(fileData)
+    OnFileLoad(fileText)
 }
